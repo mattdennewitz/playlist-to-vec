@@ -142,6 +142,8 @@ in a playlist. The format for this output is:
 }
 ```
 
+This file can be found at `SENTENCE_OUTPUT_PATH`.
+
 ## Running
 
 Once you've completed the above, you're ready to begin.
@@ -181,10 +183,29 @@ This helper script accepts two parameters, expecting one of them:
 $ python insert_task.py -t <term>
 ```
 
-See `insert_task.py`'s `--help` print-out for usage.
+See `insert_task.py`'s `--help` print-out for extended usage details.
+
+### Parsing output
+
+Data extracted from playlists may be parsed using `parser.py`.
+
+```shell
+$ python parser.py -i <path to output file> -t <artist name>
+```
+
+This will emit a JSON-encoded ranked list of similar artists.
+Make sure that the artist name you're checking was, in fact,
+a member of at least a few of the playlists brought in during
+extraction.
+
+See `--help` for extended usage details.
 
 ## TODO
 
-- Convert helper scripts to CLI-ready, pip-installable scripts
+- Add `setup.py`, which should also install helper scripts as console scripts
 - Parser should default to using `SENTENCE_OUTPUT_PATH` env var
   when `-i` is not given.
+
+## Issues
+
+Want to contribute? File an issue or a pull request.
