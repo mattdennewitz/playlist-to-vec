@@ -177,11 +177,14 @@ $ celery worker -A artistrecs -l info -Q writer
 To query Spotify for playlists, insert a task using `insert_task.py`.
 This helper script accepts two parameters, expecting one of them:
 
-- `-t`, a search term. This is required.
-
 ```shell
-$ python insert_task.py -t <term> 
+$ python insert_task.py -t <term>
+```
+
+See `insert_task.py`'s `--help` print-out for usage.
 
 ## TODO
 
 - Convert helper scripts to CLI-ready, pip-installable scripts
+- Parser should default to using `SENTENCE_OUTPUT_PATH` env var
+  when `-i` is not given.

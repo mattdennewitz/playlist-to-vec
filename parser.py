@@ -2,7 +2,7 @@
 
 """
 Passes extraction output into `word2vec`
-and prints results.
+and prints results as JSON.
 """
 
 from __future__ import absolute_import, unicode_literals
