@@ -8,14 +8,17 @@ from celery.utils.log import get_task_logger
 import spotipy
 
 from . import settings as task_settings
+from .models import SearchTypes
 from .api import get_api_client
 from .celery import app
 
 
 logger = get_task_logger(__name__)
 
+
 @app.task(queue='extraction')
 def playlist_generator(term,
+                       search_type=SearchTypes.query,
                        offset=0,
                        limit=task_settings.SPOTIFY_MAX_LIMIT):
     """Searches Spotify for playlists matching `term`.
@@ -41,10 +44,13 @@ def playlist_generator(term,
     ))
 
     # search spotify for a term
-    results = api.search(term,
-                         type='playlist',
-                         offset=offset,
-                         limit=limit)
+    if search_type == SearchTypes.Query:
+        logger.debug('Querying user playlists for "{}"'.format(term))
+        results = api.search(term, type='playlist', offset=offset,
+                             limit=limit)
+    if search_type == SearchTypes.Category:
+        logger.debug('Querying category playlists for "{}"'.format(term))
+        results = api.category_playlists(term, offset=offset, limit=limit)
 
     playlists = results['playlists']['items']
 
